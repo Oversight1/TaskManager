@@ -27,7 +27,7 @@ app.get("/", (req, res) => {
 // ✅ GET: Fetch all tasks
 app.get("/tasks", async (req, res) => {
   try {
-    const tasks = await Task.find();
+    const tasks = await Task.find().sort({ dueDate: 1 });
     res.json(tasks);
   } catch (error) {
     res.status(500).json({ message: "Error fetching tasks" });
@@ -37,12 +37,12 @@ app.get("/tasks", async (req, res) => {
 // ✅ POST: Add a new task
 app.post("/tasks", async (req, res) => {
   try {
-    const { title, priority } = req.body;
-    if (!title || !priority) {
-      return res.status(400).json({ message: "Title and priority are required" });
+    const { title, priority, dueDate } = req.body;
+    if (!title || !priority || !dueDate) {
+      return res.status(400).json({ message: "Title and priority and due date are required" });
     }
 
-    const newTask = new Task({ title, priority });
+    const newTask = new Task({ title, priority, dueDate });
     await newTask.save();
     res.status(201).json(newTask);
   } catch (error) {
