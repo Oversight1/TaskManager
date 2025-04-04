@@ -27,7 +27,7 @@ app.use(express.json());
 //Executing a trigger for the AI script 
 const { exec } = require("child_process");
 
-exec("python3 ./ai/ai_task_priority.py", (error, stdout, stderr) => {
+exec("python3 ./ai/ai_task_priority.ipynb", (error, stdout, stderr) => {
     if (error) console.error(`Error: ${error.message}`);
     if (stderr) console.error(`Stderr: ${stderr}`);
     console.log(`AI Output: ${stdout}`);
