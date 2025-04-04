@@ -7,9 +7,31 @@ const Task = require("./models/Task"); // Import Task model
 const app = express();
 const PORT = 5000;
 //WhQfQ4bE1tMccNc1
+
+
+const allowedOrigins = {"https://task-manager-frontend-2yzezb2gh-oversight1s-projects.vercel.app"}
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true
+}));
+
 app.use(express.json());
+
+//Executing a trigger for the AI script 
+const { exec } = require("child_process");
+
+exec("python3 ./ai/ai_task_priority.py", (error, stdout, stderr) => {
+    if (error) console.error(`Error: ${error.message}`);
+    if (stderr) console.error(`Stderr: ${stderr}`);
+    console.log(`AI Output: ${stdout}`);
+});
 
 // ✅ Connect to MongoDB
 mongoose.connect("mongodb+srv://Hallshooting:WhQfQ4bE1tMccNc1@oversight.hiwp0.mongodb.net/?retryWrites=true&w=majority&appName=Oversight", {
@@ -75,6 +97,31 @@ app.delete("/tasks/:id", async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: "Error deleting task" });
   }
+});
+
+
+// Add Task & Trigger AI Classification
+app.post("/add-task", async (req, res) => {
+    const { title } = req.body;
+    const newTask = new Task({ title });
+
+    await newTask.save();
+
+    // Run AI model to classify tasks
+    exec("python ai_task_priority.py", (error, stdout, stderr) => {
+        if (error) console.error(`Error: ${error.message}`);
+        if (stderr) console.error(`Stderr: ${stderr}`);
+        console.log(`AI Output: ${stdout}`);
+    });
+
+    res.json({ message: "Task added and AI classification triggered!" });
+});
+
+
+//Fetch or add AI suggestions for the user 
+app.get("/ai-suggestion", async (req, res) => {
+    const summary = await mongoose.connection.db.collection("suggestions").findOne({ type: "ai-summary" });
+    res.json({ suggestion: summary?.summary || "No suggestion available yet." });
 });
 
 // ✅ START SERVER (This was missing!)
