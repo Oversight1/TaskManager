@@ -25,13 +25,13 @@ app.use(cors({
 app.use(express.json());
 
 //Executing a trigger for the AI script 
-const { exec } = require("child_process");
-
-exec("python3 ./ai/ai_task_priority.ipynb", (error, stdout, stderr) => {
-    if (error) console.error(`Error: ${error.message}`);
-    if (stderr) console.error(`Stderr: ${stderr}`);
-    console.log(`AI Output: ${stdout}`);
-});
+//const { exec } = require("child_process");
+//
+//exec("python3 ./ai/ai_task_priority.ipynb", (error, stdout, stderr) => {
+//    if (error) console.error(`Error: ${error.message}`);
+//    if (stderr) console.error(`Stderr: ${stderr}`);
+//    console.log(`AI Output: ${stdout}`);
+//});
 
 // ✅ Connect to MongoDB
 mongoose.connect("mongodb+srv://Hallshooting:WhQfQ4bE1tMccNc1@oversight.hiwp0.mongodb.net/?retryWrites=true&w=majority&appName=Oversight", {
