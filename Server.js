@@ -101,28 +101,28 @@ app.delete("/tasks/:id", async (req, res) => {
 
 
 // Add Task & Trigger AI Classification
-app.post("/add-task", async (req, res) => {
-    const { title } = req.body;
-    const newTask = new Task({ title });
-
-    await newTask.save();
-
-    // Run AI model to classify tasks
-    exec("python ai_task_priority.py", (error, stdout, stderr) => {
-        if (error) console.error(`Error: ${error.message}`);
-        if (stderr) console.error(`Stderr: ${stderr}`);
-        console.log(`AI Output: ${stdout}`);
-    });
-
-    res.json({ message: "Task added and AI classification triggered!" });
-});
+//app.post("/add-task", async (req, res) => {
+//    const { title } = req.body;
+//    const newTask = new Task({ title });
+//
+//    await newTask.save();
+//
+//    // Run AI model to classify tasks
+//    exec("python ai_task_priority.py", (error, stdout, stderr) => {
+//        if (error) console.error(`Error: ${error.message}`);
+//        if (stderr) console.error(`Stderr: ${stderr}`);
+//        console.log(`AI Output: ${stdout}`);
+//    });
+//
+//    res.json({ message: "Task added and AI classification triggered!" });
+//});
 
 
 //Fetch or add AI suggestions for the user 
-app.get("/ai-suggestion", async (req, res) => {
-    const summary = await mongoose.connection.db.collection("suggestions").findOne({ type: "ai-summary" });
-    res.json({ suggestion: summary?.summary || "No suggestion available yet." });
-});
+//app.get("/ai-suggestion", async (req, res) => {
+//    const summary = await mongoose.connection.db.collection("suggestions").findOne({ type: "ai-summary" });
+//    res.json({ suggestion: summary?.summary || "No suggestion available yet." });
+//});
 
 // ✅ START SERVER (This was missing!)
 app.listen(PORT, () => {
