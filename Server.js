@@ -1,8 +1,8 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const cors = require("cors");
+//const cors = require("cors");
 
-const Task = require("./models/Task"); // Import Task model
+//const Task = require("./models/Task"); // Import Task model
 
 const app = express();
 const PORT = 5000;
@@ -11,16 +11,16 @@ const PORT = 5000;
 
 const allowedOrigins = ["https://task-manager-frontend-2yzezb2gh-oversight1s-projects.vercel.app"];
 // Middleware
-app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-  credentials: true
-}));
+//app.use(cors({
+//  origin: function (origin, callback) {
+//    if (!origin || allowedOrigins.includes(origin)) {
+//      callback(null, true);
+//    } else {
+//      callback(new Error("Not allowed by CORS"));
+//    }
+//  },
+//  credentials: true
+//}));
 
 app.use(express.json());
 
