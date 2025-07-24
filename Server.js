@@ -9,7 +9,7 @@ const PORT = 5000;
 //WhQfQ4bE1tMccNc1
 
 
-const allowedOrigins = ["https://task-manager-frontend-pied-one.vercel.app"];
+const allowedOrigins = ["https://https://task-manager-frontend-gax5vfel1-oversight1s-projects.vercel.app"];
 //["https://task-manager-frontend-2yzezb2gh-oversight1s-projects.vercel.app"];
 // Middleware
 app.use(cors({
